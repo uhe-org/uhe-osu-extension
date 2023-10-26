@@ -4,6 +4,17 @@
 
 osu!-related skins for the uhe Rainmeter suite
 
+Desktop with light mode:
+
+![Desktop-Light](assets/desktop-light.png)
+
+Desktop with dark mode:
+
+![Desktop-Dark](assets/desktop-dark.png)
+
+*Wallpaper source (Wallpaper Engine): [New osu! Background (1080p 60 fps)](https://steamcommunity.com/sharedfiles/filedetails/?id=962079655) (2017)*\
+*Layout: "uhe osu! Layout"*
+
 ## Dependencies
 
 Some skins rely on external plugins / software. All Rainmeter plugins listed below are packaged in the `.rmskin` or uhe's `.rmskin`.
