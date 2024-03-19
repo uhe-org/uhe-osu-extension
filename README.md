@@ -1,6 +1,7 @@
 # uhe osu! extension
 
-**This skin needs the [uhe suite](https://github.com/uhe-org/uhe) in the same `Rainmeter/Skins` folder to work correctly.**
+> [!NOTE]  
+> This skin needs the [uhe suite](https://github.com/uhe-org/uhe) in the same `Rainmeter/Skins` folder to work correctly.
 
 osu!-related skins for the uhe Rainmeter suite
 
