@@ -52,7 +52,7 @@ OutputType=UTF8
 Measure=Plugin
 Plugin=RunCommand
 DynamicVariables=1
-Parameter=dotnet run --project [measureDocsFolder]\GitHub\osu-tools\PerformanceCalculator -- simulate [measurePerfCalcMode] beatmap.osu [measurePerfCalcMods] -o #@#Cache/[&measureID].txt
+Parameter=dotnet run --project [measureDocsFolder]\GitHub\osu-tools\PerformanceCalculator -- simulate [measurePerfCalcMode] beatmap.osu [measurePerfCalcMods] > #@#Cache/[&measureID].txt
 OutputType=UTF8
 FinishAction=[!CommandMeasure measureExtendedStats Update]
 
