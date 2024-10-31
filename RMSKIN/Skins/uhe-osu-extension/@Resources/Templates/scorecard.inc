@@ -52,18 +52,54 @@ OutputType=UTF8
 Measure=Plugin
 Plugin=RunCommand
 DynamicVariables=1
-Parameter=dotnet run --project [measureDocsFolder]\GitHub\osu-tools\PerformanceCalculator -- simulate [measurePerfCalcMode] beatmap.osu [measurePerfCalcMods] > #@#Cache/[&measureID].txt
+Parameter=dotnet run --project [measureDocsFolder]\GitHub\osu-tools\PerformanceCalculator -- simulate [measurePerfCalcMode] beatmap.osu [measurePerfCalcMods] -j > #@#Cache/[&measureID].json
 OutputType=UTF8
 FinishAction=[!CommandMeasure measureExtendedStats Update]
 
 [measureExtendedStats]
 Measure=WebParser
 DynamicVariables=1
-Url=file://#@#Cache/[&measureID].txt
-RegExp=[\s\S]*
+Url=file://#@#Cache/[&measureID].json
+RegExp=(?siU).*"aim":(.*),.*"speed":(.*),.*"accuracy":(.*),.*"pp":(.*)},
 Disabled=1
 FinishAction=[!EnableMeasure measureShowExtendedStatsOnStart][!UpdateMeasure measureShowExtendedStatsOnStart][!DisableMeasure measureShowExtendedStatsOnStart]
 OnConnectErrorAction=[!CommandMeasure measureOsuFile Run]
+
+[measureAimPP]
+Measure=WebParser
+URL=[measureExtendedStats]
+StringIndex=1
+
+[measureAimPPCalc]
+Measure=Calc
+Formula=Round(measureAimPP)
+
+[measureSpeedPP]
+Measure=WebParser
+URL=[measureExtendedStats]
+StringIndex=2
+
+[measureSpeedPPCalc]
+Measure=Calc
+Formula=Round(measureSpeedPP)
+
+[measureAccuracyPP]
+Measure=WebParser
+URL=[measureExtendedStats]
+StringIndex=3
+
+[measureAccuracyPPCalc]
+Measure=Calc
+Formula=Round(measureAccuracyPP)
+
+[measureMaximumPP]
+Measure=WebParser
+URL=[measureExtendedStats]
+StringIndex=4
+
+[measureMaximumPPCalc]
+Measure=Calc
+Formula=Round(measureMaximumPP)
 
 [measurePerfCalcMode]
 Measure=String
@@ -488,7 +524,11 @@ SolidColor=0,0,0
 
 [meterDropdownContent]
 Meter=String
-MeasureName=measureExtendedStats
+MeasureName=measureMods
+MeasureName2=measureAimPPCalc
+MeasureName3=measureSpeedPPCalc
+MeasureName4=measureAccuracyPPCalc
+MeasureName5=measureMaximumPPCalc
 FontSize=10
 FontFace=#MonospacedFontFace#
 AntiAlias=1
@@ -497,6 +537,8 @@ Padding=#PaddingSize#
 W=(#Width# - (#SidePadding# * 2))
 Group=TextGroup
 Container=meterDropdown
+Text=Simulated Perfect Play with %1#CRLF#---#CRLF#Aim:      %2#CRLF#Speed:    %3#CRLF#Accuracy: %4#CRLF#pp:       %5
+DynamicVariables=1
 
 [ArrowExpandCollapseStyle]
 AntiAlias=1
