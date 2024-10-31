@@ -537,7 +537,7 @@ Padding=#PaddingSize#
 W=(#Width# - (#SidePadding# * 2))
 Group=TextGroup
 Container=meterDropdown
-Text=Simulated Perfect Play with %1#CRLF#---#CRLF#Aim:      %2#CRLF#Speed:    %3#CRLF#Accuracy: %4#CRLF#pp:       %5
+Text=Simulated Perfect Play with %1#CRLF#---#CRLF#Aim      : %2#CRLF#Speed    : %3#CRLF#Accuracy : %4#CRLF#pp       : %5
 DynamicVariables=1
 
 [ArrowExpandCollapseStyle]
