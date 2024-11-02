@@ -2,7 +2,8 @@
 AccurateText=1
 DynamicWindowSize=1
 @Include=#SKINSPATH#/uhe/@Resources/Variables/mainvariables.inc
-@Include2=#@#Variables/tokenvariables.inc
+@Include2=#SKINSPATH#/uhe/@Resources/Variables/easingvariables.inc
+@Include3=#@#Variables/tokenvariables.inc
 ContextTitle2="Edit base scorecard"
 ContextAction2=["#@#Templates/scorecard.inc"]
 Group=osu | osuScore | AllSkins
@@ -47,6 +48,12 @@ DynamicVariables=1
 Parameter=curl "https://osu.ppy.sh/osu/[&measureID]" --output beatmap.osu
 FinishAction=[!CommandMeasure measureGetExtendedStats Run]
 OutputType=UTF8
+
+[measureDocsFolder]
+Measure=Registry
+RegHKey=HKEY_CURRENT_USER
+RegKey=SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders
+RegValue=Personal
 
 [measureGetExtendedStats]
 Measure=Plugin
