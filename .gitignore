@@ -1,7 +1,7 @@
 
 *.osu
-Usercard/DownloadFile/avatar.jpg
-Usercard/DownloadFile/cover.jpg
-Recent/DownloadFile/cover.jpg
-Best/DownloadFile/cover.jpg
-@Resources/Cache
+/RMSKIN/Skins/uhe-osu-extension/Usercard/DownloadFile/avatar.jpg
+/RMSKIN/Skins/uhe-osu-extension/Usercard/DownloadFile/cover.jpg
+/RMSKIN/Skins/uhe-osu-extension/Recent/DownloadFile/cover.jpg
+/RMSKIN/Skins/uhe-osu-extension/Best/DownloadFile/cover.jpg
+/RMSKIN/Skins/uhe-osu-extension/@Resources/Cache
