@@ -5,13 +5,13 @@
 
 osu!-related skins for the uhe Rainmeter suite
 
-Desktop with light mode:
+Supports light/dark mode:
 
-![Desktop-Light](assets/desktop-light.png)
-
-Desktop with dark mode:
-
-![Desktop-Dark](assets/desktop-dark.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/desktop-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/desktop-light.png">
+  <img alt="uhe osu! extension in dark mode" src="assets/desktop-dark.png">
+</picture>
 
 *Wallpaper source (Wallpaper Engine): [New osu! Background (1080p 60 fps)](https://steamcommunity.com/sharedfiles/filedetails/?id=962079655) (2017)*\
 *Layout: "uhe osu! Layout"*
