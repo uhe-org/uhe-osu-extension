@@ -59,14 +59,14 @@ RegValue=Personal
 Measure=Plugin
 Plugin=RunCommand
 DynamicVariables=1
-Parameter=dotnet run --project [measureDocsFolder]\GitHub\osu-tools\PerformanceCalculator -- simulate [measurePerfCalcMode] beatmap.osu [measurePerfCalcMods] -j > #@#Cache/[&measureID].json
+Parameter=dotnet run --project [measureDocsFolder]\GitHub\osu-tools\PerformanceCalculator -- simulate [measurePerfCalcMode] beatmap.osu [measurePerfCalcMods] -j > #@#Cache/[&measureID][&measureMods].json
 OutputType=UTF8
 FinishAction=[!CommandMeasure measureExtendedStats Update]
 
 [measureExtendedStats]
 Measure=WebParser
 DynamicVariables=1
-Url=file://#@#Cache/[&measureID].json
+Url=file://#@#Cache/[&measureID][&measureMods].json
 RegExp=(?siU).*"aim":(.*),.*"speed":(.*),.*"accuracy":(.*),.*"pp":(.*)},
 Disabled=1
 FinishAction=[!EnableMeasure measureShowExtendedStatsOnStart][!UpdateMeasure measureShowExtendedStatsOnStart][!DisableMeasure measureShowExtendedStatsOnStart]
