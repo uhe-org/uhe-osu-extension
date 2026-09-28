@@ -531,11 +531,10 @@ SolidColor=0,0,0
 
 [meterDropdownContent]
 Meter=String
-MeasureName=measureMods
-MeasureName2=measureAimPPCalc
-MeasureName3=measureSpeedPPCalc
-MeasureName4=measureAccuracyPPCalc
-MeasureName5=measureMaximumPPCalc
+MeasureName=measureAimPPCalc
+MeasureName2=measureSpeedPPCalc
+MeasureName3=measureAccuracyPPCalc
+MeasureName4=measureMaximumPPCalc
 FontSize=10
 FontFace=#MonospacedFontFace#
 AntiAlias=1
@@ -544,7 +543,7 @@ Padding=#PaddingSize#
 W=(#Width# - (#SidePadding# * 2))
 Group=TextGroup
 Container=meterDropdown
-Text=Simulated Perfect Play with %1#CRLF#---#CRLF#Aim      : %2#CRLF#Speed    : %3#CRLF#Accuracy : %4#CRLF#pp       : %5
+Text=Simulated perfect play with current mods#CRLF#---#CRLF#Aim      : %1#CRLF#Speed    : %2#CRLF#Accuracy : %3#CRLF#pp       : %4
 DynamicVariables=1
 
 [ArrowExpandCollapseStyle]
