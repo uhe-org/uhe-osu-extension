@@ -18,22 +18,14 @@ OnRegExpErrorTriggered=0
 UserCollapsed=0
 volume-xmark=[\xf6a9]
 volume-high=[xf028]
-BaseFinishAction=[!ShowMeterGroup Content][!EnableMeasureGroup TimeMeasures][!HideMeterGroup LoadingGroup][!EnableMeasure measureOnConnectError][!UpdateMeasure measureOnConnectError][!DisableMeasure measureOnConnectError][!SetVariable OnRegExpErrorTriggered 0]
+BaseFinishAction=[!EnableMeasure measureScoreID][!ShowMeterGroup Content][!EnableMeasureGroup TimeMeasures][!HideMeterGroup LoadingGroup][!EnableMeasure measureOnConnectError][!UpdateMeasure measureOnConnectError][!DisableMeasure measureOnConnectError][!SetVariable OnRegExpErrorTriggered 0]
+FinishAction=#BaseFinishAction#
 BaseOnConnectErrorAction=[!HideMeterGroup Content][!DisableMeasureGroup TimeMeasures][!HideMeterGroup UpArrowGroup][!HideMeterGroup DownArrowGroup][!ShowMeterGroup LoadingGroup][!SetOption meterLoading Text "No internet connection..."][!UpdateMeter meterLoading][!SetVariable OnConnectErrorTriggered 1][!HideMeter meterDropdown][!HideMeter meterDropdownBackground][!Redraw]
+OnConnectErrorAction=#BaseOnConnectErrorAction#
 BaseOnRegExpErrorAction=[!HideMeterGroup Content][!DisableMeasureGroup TimeMeasures][!HideMeterGroup UpArrowGroup][!HideMeterGroup DownArrowGroup][!ShowMeterGroup LoadingGroup][!SetOption meterLoading Text "No recent score..."][!UpdateMeter meterLoading][!HideMeter meterLoadingSpinner][!HideMeter meterSpinnerBackground][!SetVariable OnRegExpErrorTriggered 1][!HideMeter meterDropdown][!HideMeter meterDropdownBackground][!Redraw]
+OnRegExpErrorAction=#BaseOnRegExpErrorAction#
 BaseScoreChangeAction=[!HideMeter meterDropdown][!HideMeter meterDropdownBackground][!SetOption measureMultiplier Formula 0][!UpdateMeasure measureMultiplier][!SetVariable Size 0][!SetOption meterDropdown H 0][!HideMeterGroup UpArrowGroup][!HideMeterGroup DownArrowGroup][!EnableMeasure measureExtendedStats][!CommandMeasure measureExtendedStats Update][!EnableMeasure measureSpeech][!UpdateMeasure measureSpeech][!DisableMeasure measureSpeech]
-AccuracyRegExp=.*"accuracy":(.*),
-ModsRegExp=.*"mods":\[(.*)\],
-ScoreRegExp=.*"score":(.*),
-MaxComboRegExp=.*"max_combo":(.*),
-Count50RegExp=.*"count_50":(.*),
-Count100RegExp=.*"count_100":(.*),
-Count300RegExp=.*"count_300":(.*),
-CountMissRegExp=.*"count_miss":(.*)},
-RankRegExp=.*"rank":"(.*)",
-CreatedAtRegExp=.*"created_at":"(.*)",
-BestIDRegExp=.*"best_id":(.*),
-PPRegExp=.*"pp":(.*),
+ScoreChangeAction=#BaseScoreChangeAction#
 
 [measureSpeech]
 Measure=Calc
@@ -67,7 +59,7 @@ FinishAction=[!CommandMeasure measureExtendedStats Update]
 Measure=WebParser
 DynamicVariables=1
 Url=file://#@#Cache/[&measureID][&measureMods].json
-RegExp=(?siU).*"aim":(.*),.*"speed":(.*),.*"accuracy":(.*),.*"pp":(.*)},
+JsonPointer=1
 Disabled=1
 FinishAction=[!EnableMeasure measureShowExtendedStatsOnStart][!UpdateMeasure measureShowExtendedStatsOnStart][!DisableMeasure measureShowExtendedStatsOnStart]
 OnConnectErrorAction=[!CommandMeasure measureOsuFile Run]
@@ -75,7 +67,7 @@ OnConnectErrorAction=[!CommandMeasure measureOsuFile Run]
 [measureAimPP]
 Measure=WebParser
 URL=[measureExtendedStats]
-StringIndex=1
+JsonPointer=/performance_attributes/aim
 
 [measureAimPPCalc]
 Measure=Calc
@@ -84,7 +76,7 @@ Formula=Round(measureAimPP)
 [measureSpeedPP]
 Measure=WebParser
 URL=[measureExtendedStats]
-StringIndex=2
+JsonPointer=/performance_attributes/speed
 
 [measureSpeedPPCalc]
 Measure=Calc
@@ -93,7 +85,7 @@ Formula=Round(measureSpeedPP)
 [measureAccuracyPP]
 Measure=WebParser
 URL=[measureExtendedStats]
-StringIndex=3
+JsonPointer=/performance_attributes/accuracy
 
 [measureAccuracyPPCalc]
 Measure=Calc
@@ -102,7 +94,7 @@ Formula=Round(measureAccuracyPP)
 [measureMaximumPP]
 Measure=WebParser
 URL=[measureExtendedStats]
-StringIndex=4
+JsonPointer=/performance_attributes/pp
 
 [measureMaximumPPCalc]
 Measure=Calc
@@ -116,9 +108,9 @@ Substitute="fruits":"catch"
 [measurePerfCalcMods]
 Measure=WebParser
 URL=[measureData]
-StringIndex=5
+JsonPointer=/0/mods
 RegExpSubstitute=1
-Substitute='"':"", ",":"", "(..)":"-m \1 "
+Substitute="[":"","]":"", '"':"", ",":"", "(..)":"-m \1 "
 
 [measureShowExtendedStatsOnStart]
 Measure=Calc
@@ -137,11 +129,11 @@ Name=Microsoft Zira Desktop
 [measureData]
 Measure=WebParser
 Header=Authorization: Bearer %UheOsuToken%
+;Header2=x-api-version: 20240529
 UpdateRate=5
-RegExp=(?siU)#AccuracyRegExp##BestIDRegExp##CreatedAtRegExp##MaxComboRegExp##ModsRegExp##PPRegExp##RankRegExp##ScoreRegExp##Count100RegExp##Count300RegExp##Count50RegExp##CountMissRegExp#.*"beatmapset_id":(.*),.*"id":(.*),.*"version":"(.*)",.*"title":"(.*)",
-FinishAction=#BaseFinishAction#
-OnConnectErrorAction=#BaseOnConnectErrorAction#
-OnRegExpErrorAction=#BaseOnRegExpErrorAction#
+JsonPointer=1
+FinishAction=#FinishAction#
+OnConnectErrorAction=#OnConnectErrorAction#
 
 [measureOnConnectError]
 Measure=Calc
@@ -160,7 +152,7 @@ ShowExpandButton=[!HideMeterGroup UpArrowGroup][!ShowMeterGroup DownArrowGroup][
 [measureAccuracyString]
 Measure=WebParser
 URL=[measureData]
-StringIndex=1
+JsonPointer=/0/accuracy
 
 [measureAccuracyCalc]
 Measure=Calc
@@ -176,48 +168,61 @@ Substitute='(.+)':"\1%"
 [measureScore]
 Measure=WebParser
 URL=[measureData]
-StringIndex=8
+JsonPointer=/0/score
+;JsonPointer=/0/total_score
 RegExpSubstitute=1
 Substitute=#FormatNumberWithCommas#
 
 [measureMaxCombo]
 Measure=WebParser
 URL=[measureData]
-StringIndex=4
+JsonPointer=/0/max_combo
 RegExpSubstitute=1
 Substitute='(.+)':"\1x"
 
 [measure300]
 Measure=WebParser
 URL=[measureData]
-StringIndex=10
+JsonPointer=/0/statistics/count_300
+;JsonPointer=/0/statistics/great
+RegExpSubstitute=1
+Substitute="":"0"
 
 [measure100]
 Measure=WebParser
 URL=[measureData]
-StringIndex=9
+JsonPointer=/0/statistics/count_100
+;JsonPointer=/0/statistics/ok
+RegExpSubstitute=1
+Substitute="":"0"
 
 [measure50]
 Measure=WebParser
 URL=[measureData]
-StringIndex=11
+JsonPointer=/0/statistics/count_50
+;JsonPointer=/0/statistics/meh
+RegExpSubstitute=1
+Substitute="":"0"
 
 [measureMiss]
 Measure=WebParser
 URL=[measureData]
-StringIndex=12
+JsonPointer=/0/statistics/count_miss
+;JsonPointer=/0/statistics/miss
+RegExpSubstitute=1
+Substitute="":"0"
 
 [measureMods]
 Measure=WebParser
 URL=[measureData]
-StringIndex=5
+JsonPointer=/0/mods
 RegExpSubstitute=1
-Substitute='(.+)':"+\1", '"':"", ",":""
+Substitute="[":"","]":"", '(.+)':"+\1", '"':"", ",":""
 
 [measureRank]
 Measure=WebParser
 URL=[measureData]
-StringIndex=7
+JsonPointer=/0/rank
 IfMatch=X|S
 IfMatchAction=[!SetOption meterRank FontColor 255,255,0]
 IfMatch2=XH|SH
@@ -233,16 +238,20 @@ DynamicVariables=1
 String=[measureRank]
 Substitute="XH":"SS", "X":"SS", "SH":"S", "F":"D"
 
-[measureScoreBestID]
+[measureScoreID]
 Measure=WebParser
 URL=[measureData]
-StringIndex=2
+JsonPointer=/0/id
 Substitute="null":"-1"
+IfMatch=^\s*$
+IfMatchAction=#OnRegExpErrorAction#[!SetOption measureData FinishAction ""]
+IfNotMatchAction=[!SetOption measureData FinishAction "#FinishAction#"]#FinishAction#
+Disabled=1
 
 [measurePPString]
 Measure=WebParser
 URL=[measureData]
-StringIndex=6
+JsonPointer=/0/pp
 
 [measurePPCalc]
 Measure=Calc
@@ -265,15 +274,16 @@ Substitute='(.+)':"\1pp", "null":"0pp"
 [measureTitle]
 Measure=WebParser
 URL=[measureData]
-StringIndex=16
+JsonPointer=/0/beatmapset/title
 RegExpSubstitute=1
 Substitute='(.+)':"\1 ", "\\":""
 
 [measureScoreDateString]
 Measure=WebParser
 URL=[measureData]
-StringIndex=3
-OnChangeAction=#BaseScoreChangeAction#
+JsonPointer=/0/created_at
+;JsonPointer=/0/ended_at
+OnChangeAction=#ScoreChangeAction#
 ;find way of animating without duplicating code to hide expand/collapse buttons
 ;OnChangeAction=#VerticalCollapseCommand#[!CommandMeasure measureOsuFile Run][!EnableMeasure measureSpeech][!UpdateMeasure measureSpeech][!DisableMeasure measureSpeech]
 
@@ -330,21 +340,21 @@ Measure=String
 [measureVersion]
 Measure=WebParser
 URL=[measureData]
-StringIndex=15
+JsonPointer=/0/beatmap/version
 RegExpSubstitute=1
 Substitute='(.+)':"\[\1\]", "\\":""
 
 [measureImage]
 Measure=WebParser
-URL=https://assets.ppy.sh/beatmaps/[measureData]/covers/list@2x.jpg?
-StringIndex=13
+URL=[measureData]
+JsonPointer=/0/beatmapset/covers/list@2x
 Download=1
 DownloadFile=cover.jpg
 
 [measureID]
 Measure=WebParser
 URL=[measureData]
-StringIndex=14
+JsonPointer=/0/beatmap/id
 
 [measureMuted]
 Measure=Calc

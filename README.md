@@ -3,6 +3,9 @@
 > [!NOTE]  
 > This skin needs the [uhe suite](https://github.com/uhe-org/uhe) in the same `Rainmeter/Skins` folder to work correctly.
 
+> [!NOTE]  
+> This skin needs [Rainmeter v5](https://forum.rainmeter.net/viewtopic.php?t=45991).
+
 osu!-related skins for the uhe Rainmeter suite
 
 Supports light/dark mode:
