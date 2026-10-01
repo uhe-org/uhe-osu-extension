@@ -1,6 +1,6 @@
 [Rainmeter]
-ContextTitle3="Edit osu! token variables"
-ContextAction3=["#@#Variables/tokenvariables.inc"]
+ContextTitle4="Edit osu! token variables"
+ContextAction4=["#@#Variables/tokenvariables.inc"]
 
 [Variables]
 Username=Joehu
