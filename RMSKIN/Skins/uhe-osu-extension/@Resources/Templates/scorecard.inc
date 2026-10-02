@@ -360,8 +360,8 @@ JsonPointer=/0/beatmap/id
 Measure=Calc
 Formula=#Muted#
 IfCondition=measureMuted = 0
-IfTrueAction=[!SetVariable ToggleMuted 1][!SetOption meterToggleMute Text volume-high][!UpdateMeter meterToggleMute][!Redraw]
-IfFalseAction=[!SetVariable ToggleMuted 0][!CommandMeasure SpeechHost ""][!SetOption meterToggleMute Text volume-xmark][!UpdateMeter meterToggleMute][!Redraw]
+IfTrueAction=[!SetVariable ToggleMuted 1][!SetOption meterToggleMute Text #volume-high#][!UpdateMeter meterToggleMute][!Redraw]
+IfFalseAction=[!SetVariable ToggleMuted 0][!CommandMeasure SpeechHost ""][!SetOption meterToggleMute Text #volume-xmark#][!UpdateMeter meterToggleMute][!Redraw]
 DynamicVariables=1
 
 [meterImage]
