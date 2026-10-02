@@ -22,7 +22,7 @@ BaseFinishAction=[!EnableMeasure measureScoreID][!ShowMeterGroup Content][!Enabl
 FinishAction=#BaseFinishAction#
 BaseOnConnectErrorAction=[!HideMeterGroup Content][!DisableMeasureGroup TimeMeasures][!HideMeterGroup UpArrowGroup][!HideMeterGroup DownArrowGroup][!ShowMeterGroup LoadingGroup][!SetOption meterLoading Text "No internet connection..."][!UpdateMeter meterLoading][!SetVariable OnConnectErrorTriggered 1][!HideMeter meterDropdown][!HideMeter meterDropdownBackground][!Redraw]
 OnConnectErrorAction=#BaseOnConnectErrorAction#
-BaseOnRegExpErrorAction=[!HideMeterGroup Content][!DisableMeasureGroup TimeMeasures][!HideMeterGroup UpArrowGroup][!HideMeterGroup DownArrowGroup][!ShowMeterGroup LoadingGroup][!SetOption meterLoading Text "No recent score..."][!UpdateMeter meterLoading][!HideMeter meterLoadingSpinner][!HideMeter meterSpinnerBackground][!SetVariable OnRegExpErrorTriggered 1][!HideMeter meterDropdown][!HideMeter meterDropdownBackground][!Redraw]
+BaseOnRegExpErrorAction=[!HideMeterGroup Content][!DisableMeasureGroup TimeMeasures][!HideMeterGroup UpArrowGroup][!HideMeterGroup DownArrowGroup][!ShowMeterGroup LoadingGroup][!SetOption meterLoading Text "No recent score..."][!UpdateMeter meterLoading][!HideMeter meterLoadingSpinner][!SetVariable OnRegExpErrorTriggered 1][!HideMeter meterDropdown][!HideMeter meterDropdownBackground][!Redraw]
 OnRegExpErrorAction=#BaseOnRegExpErrorAction#
 BaseScoreChangeAction=[!HideMeter meterDropdown][!HideMeter meterDropdownBackground][!SetOption measureMultiplier Formula 0][!UpdateMeasure measureMultiplier][!SetVariable Size 0][!SetOption meterDropdown H 0][!HideMeterGroup UpArrowGroup][!HideMeterGroup DownArrowGroup][!EnableMeasure measureExtendedStats][!CommandMeasure measureExtendedStats Update][!EnableMeasure measureSpeech][!UpdateMeasure measureSpeech][!DisableMeasure measureSpeech]
 ScoreChangeAction=#BaseScoreChangeAction#
@@ -400,7 +400,7 @@ Group=TextGroup
 
 [meterLoadingBackground]
 Meter=Shape
-Shape=Rectangle 0,0,[meterLoading:W],[meterLoading:H],#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0
+Shape=Rectangle 0,0,[meterLoading:W],([meterLoading:H] + [meterLoadingSpinner:H] + 20),#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0
 ;add placeholder option to hide errors
 Gradient=0 | 0,0,0,0 ; 0.0
 DynamicVariables=1
@@ -425,15 +425,6 @@ Measure=Loop
 StartValue=0
 EndValue=9
 
-[meterSpinnerBackground]
-Meter=Shape
-Shape=Rectangle 0,0,#Width#,40,#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0
-;add placeholder option to hide errors
-Gradient=0 | 0,0,0,0 ; 0.0
-DynamicVariables=1
-Group=OpaqueBackgroundGroup | LoadingGroup
-Y=R
-
 [meterLoadingSpinner]
 Meter=String
 FontFace=#IconFace#
@@ -442,8 +433,8 @@ Text=[\xf110]
 DynamicVariables=1
 Angle=([measureLoop] / 5 * PI)
 AntiAlias=1
-Y=r
-X=(#Width# / 2)
+Y=R
+X=r
 W=0
 H=2
 Padding=0,20,0,0
