@@ -149,6 +149,14 @@ ActionList2=ShowExpandButton | #BaseVerticalCollapse#
 ShowCollapseButton=[!HideMeterGroup DownArrowGroup][!ShowMeterGroup UpArrowGroup][!Redraw]
 ShowExpandButton=[!HideMeterGroup UpArrowGroup][!ShowMeterGroup DownArrowGroup][!Redraw]
 
+[measureScoreType]
+Measure=WebParser
+URL=[measureData]
+JsonPointer=/0/type
+IfMatch=solo_score
+IfMatchAction=[!SetVariable ScorePath "scores"]
+IfNotMatchAction=[!SetVariable ScorePath "scores/#Mode#"]
+
 [measureAccuracyString]
 Measure=WebParser
 URL=[measureData]
@@ -443,7 +451,7 @@ Group=LoadingGroup | TextGroup
 
 [meterDataBackground]
 Meter=Shape
-Shape=Rectangle 0,0,[meterData:W],[meterData:H],#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0
+Shape=Rectangle 0,0,#Width#,[meterData:H],#CornerRadius# | Fill LinearGradient Gradient | StrokeWidth 0
 ;add placeholder option to hide errors
 Gradient=0 | 0,0,0,0 ; 0.0
 DynamicVariables=1
@@ -468,7 +476,7 @@ FontSize=12
 FontFace=#FontFace#
 AntiAlias=1
 Y=r
-W=(#Width# - (#SidePadding# * 2))
+W=(#Width# - (#SidePadding# * 2) - [meterScoreLink:W])
 ClipString=2
 Text=%9%8#CRLF#%1 | %2 | %3/%4/%5/%6 | %10 | %7#CRLF#%11%12
 Padding=#PaddingSize#
@@ -625,13 +633,39 @@ LeftMouseUpAction=#PlayButtonClick#[!HideMeterGroup UpArrowGroup][!ShowMeterGrou
 Group=TextGroup | UpArrowGroup
 Hidden=1
 
+[meterScoreLink]
+Meter=String
+Group=TextGroup
+FontFace=#IconFace#
+DynamicVariables=1
+Padding=#PaddingSize#
+FontSize=14
+AntiAlias=1
+MouseOverAction=[!SetOption meterScoreLink SolidColor #LightHighlight#,#NoGradientTransparency#][!UpdateMeter meterScoreLink][!Redraw]
+MouseLeaveAction=[!SetOption meterScoreLink SolidColor 0,0,0,0][!UpdateMeter meterScoreLink][!Redraw]
+LeftMouseUpAction=#PlayButtonClick#["https://osu.ppy.sh/#ScorePath#/[measureScoreID]"]
+Container=meterScoreLinkContainer
+OnUpdateAction=[!UpdateMeter meterScoreLinkContainer]
+Text=[\xf35d]
+ToolTipTitle=Actions
+ToolTipText=Left: Show score on website
+
+[meterScoreLinkContainer]
+Meter=Shape
+Shape=Rectangle 0,0,[meterScoreLink:W],[meterScoreLink:H],#CornerRadius# | StrokeWidth 0
+DynamicVariables=1
+X=(#Width# - [meterScoreLink:W])
+Y=[meterData:Y]
+Group=Content
+Hidden=1
+
 [meterToggleMute]
 Meter=String
 Group=TextGroup
 FontFace=#IconFace#
 DynamicVariables=1
 Padding=#PaddingSize#
-FontSize=16
+FontSize=14
 AntiAlias=1
 MouseOverAction=[!SetOption meterToggleMute SolidColor #LightHighlight#,#NoGradientTransparency#][!UpdateMeter meterToggleMute][!Redraw]
 MouseLeaveAction=[!SetOption meterToggleMute SolidColor 0,0,0,0][!UpdateMeter meterToggleMute][!Redraw]
@@ -643,6 +677,7 @@ OnUpdateAction=[!UpdateMeter meterToggleMuteContainer]
 Meter=Shape
 Shape=Rectangle 0,0,[meterToggleMute:W],[meterToggleMute:H],#CornerRadius# | StrokeWidth 0
 DynamicVariables=1
-X=([meterData:W] - [meterToggleMute:W])
+X=(#Width# - [meterToggleMute:W])
 Y=([meterData:Y] + [meterData:H]- [meterToggleMute:H])
 Group=Content
+Hidden=1
